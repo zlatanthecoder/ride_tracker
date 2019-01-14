@@ -11,5 +11,18 @@
 
 	<context:annotation-config />
 	<context:component-scan base-package="com.pluralsight" />
+	
+	<!-- Creating a DataSource bean for JDBC Template -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/ride_tracker"/>
+		<property name="username" value="root"/>
+		<property name="password" value="root"/>
+	</bean>
+	
+	<!-- configuring JdbcTemplate with the above dataSource -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"/> <!-- dataSource referring to above datasource that we have created -->
+	</bean>
 
 </beans>
