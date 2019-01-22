@@ -34,7 +34,7 @@ public class RestControllerTest {
 		RestTemplate restTemplate = new RestTemplate();
 		
 		Ride ride = new Ride();
-		ride.setName("Round Valley Ride");
+		ride.setName("SobTrail Valley Ride");
 		ride.setDuration(38);
 		
 		/*put method used to create & update the records
@@ -45,4 +45,62 @@ public class RestControllerTest {
 		
 	}
 	
+	
+	@Test
+	public void testGetRide() {
+		RestTemplate restTemplate = new RestTemplate();
+		
+		//restTemplate.getForObject(url, responseType)
+		Ride ride = restTemplate.getForObject("http://localhost:8080/ride_tracker/ride/2", Ride.class);
+		
+		System.out.println(ride);
+	}
+	
+	
+	@Test
+	public void testUpdateRide() {
+		RestTemplate restTemplate = new RestTemplate();
+
+		//restTemplate.getForObject(url, responseType)
+		Ride ride = restTemplate.getForObject("http://localhost:8080/ride_tracker/ride/2", Ride.class); //retrieving object based on id
+		
+		ride.setDuration(ride.getDuration()+1); //setting the new value
+		
+		//restTemplate.put(url, request);
+		restTemplate.put("http://localhost:8080/ride_tracker/ride", ride); //updating the new value through put method. sending updated ride object in request body
+		
+		System.out.println(ride);
+	}
+	
+	
+	@Test
+	public void testBatchUpdate() { //Batching is used to update multiple rows at one go
+		/* below query has been run in mysql for Batch update
+		 * alter table ride add ride_date datetime after duration
+		 */
+		
+		RestTemplate restTemplate = new RestTemplate();
+		
+		//restTemplate.getForObject(url, responseType)
+		restTemplate.getForObject("http://localhost:8080/ride_tracker/batch", Object.class); //adding response just for the sake as we don't have any method without the responseType
+		
+		
+	}
+	
+	
+	@Test
+	public void testDeleteRide() {
+		RestTemplate restTemplate = new RestTemplate();
+		
+		restTemplate.delete("http://localhost:8080/ride_tracker/delete/2");
+	}
+	
+
+	@Test
+	public void testException() {
+		RestTemplate restTemplate = new RestTemplate();
+		
+		//restTemplate.getForObject(url, responseType)		
+		restTemplate.getForObject("http://localhost:8080/ride_tracker/test", Ride.class);
+	}
 }
