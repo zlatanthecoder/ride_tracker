@@ -13,7 +13,7 @@ import org.junit.Test;
 
 public class RestControllerTest {
 
-	@Test(timeout=3000)
+	@Test(timeout=10000)
 	public void testGetRides() {
 		RestTemplate restTemplate = new RestTemplate();
 
@@ -27,4 +27,22 @@ public class RestControllerTest {
 			System.out.println("Ride name: " + ride.getName());
 		}
 	}
+	
+	
+	@Test(timeout=10000)
+	public void testCreateRide() {
+		RestTemplate restTemplate = new RestTemplate();
+		
+		Ride ride = new Ride();
+		ride.setName("Round Valley Ride");
+		ride.setDuration(38);
+		
+		/*put method used to create & update the records
+		restTemplate.put("http://localhost:8080/ride_tracker/ride", ride); ride_tracker is the project context name here */
+		
+		//restTemplate.postForObject(url, request, responseType)
+		ride = restTemplate.postForObject("http://localhost:8080/ride_tracker/ride", ride, Ride.class); //getting the ride object back as a response rather than getting null as a response
+		
+	}
+	
 }
